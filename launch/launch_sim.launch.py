@@ -15,8 +15,6 @@ from launch_ros.actions import Node
 def generate_launch_description():
 
 
-    # Include the robot_state_publisher launch file, provided by our own package. Force sim time to be enabled
-    # !!! MAKE SURE YOU SET THE PACKAGE NAME CORRECTLY !!!
 
     package_name='nav2_bot' 
 
@@ -46,6 +44,7 @@ def generate_launch_description():
                 )]), launch_arguments={'use_sim_time': 'true'}.items()
     )
 
+
     twist_mux_params= os.path.join(get_package_share_directory(package_name),'config','twist_mux.yaml')
     twist_mux = Node(
         package="twist_mux",
@@ -66,6 +65,11 @@ def generate_launch_description():
         arguments=["joint_broadcaster"],
     )
 
+    # lidar = Node(
+    #         package=package_name,
+    #         executable='lidar_node',
+    #     )
+    
     # Launch them all!
     return LaunchDescription([
         rsp,
@@ -75,4 +79,5 @@ def generate_launch_description():
         spawn_entity,
         diff_drive_spawner,
         joint_drive_spawner,
+        # lidar,
     ])
