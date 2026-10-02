@@ -1,15 +1,17 @@
 # nav2_bot
 
+> **Note:** This package builds on third-party starting points (credited below). The robot and sensor configuration, parameter tuning and integration are by Kleber Cabral. The README documentation and the 2026-10-02 cleanup were done with AI assistance (Claude).
+
 A ROS 2 package with a simulated differential-drive robot (Gazebo Classic +
 ros2_control), set up as a sandbox for experimenting with Nav2 and slam_toolbox
 sensor and parameter settings.
 
-The robot description and simulation launch layout follow the Articulated Robotics
-`my_bot` template and tutorial series by Josh Newans
-([joshnewans/my_bot](https://github.com/joshnewans/my_bot)), and
-`navigation_launch.py`/`localization_launch.py` are adapted from Nav2's `nav2_bringup`
-(Apache 2.0, original copyright headers kept). The Nav2 and slam_toolbox parameter
-files start from those projects' defaults.
+**Credits:** the robot description and simulation launch layout follow the Articulated
+Robotics `my_bot` template and tutorial series by Josh Newans
+([joshnewans/my_bot](https://github.com/joshnewans/my_bot)).
+`navigation_launch.py` and `localization_launch.py` are adapted from Nav2's
+`nav2_bringup` (Apache 2.0, original copyright headers kept). The Nav2 and slam_toolbox
+parameter files start from those projects' defaults.
 
 ## Structure
 
@@ -27,8 +29,22 @@ nav2_bot/
 └── worlds/        # empty.world, my_room.world
 ```
 
-`twist_mux` gives the joystick (`/cmd_vel_joy`) priority over Nav2 (`/cmd_vel`) and
-feeds the result to `diff_controller`.
+## What it does
+
+- **Robot model** (`description/`): a two-wheel differential-drive base with a 360°
+  lidar (publishing `/scan`) and a depth camera. By default it's driven through
+  ros2_control (`diff_controller` + `joint_broadcaster`, configured in
+  `config/my_controllers.yaml`). With `use_ros2_control:=false` it falls back to
+  Gazebo's diff-drive plugin.
+- **Simulation** (`launch_sim.launch.py`): starts robot_state_publisher, Gazebo, spawns
+  the robot, and starts the controllers, joystick teleop and `twist_mux`.
+  `twist_mux` gives the joystick (`/cmd_vel_joy`) priority over Nav2 (`/cmd_vel`) and
+  feeds the result to `diff_controller`.
+- **SLAM** (`online_async_launch.py`): slam_toolbox in async mode, using
+  `config/mapper_params_online_async.yaml`.
+- **Navigation** (`navigation_launch.py`, `localization_launch.py`): the Nav2 servers
+  and map_server + AMCL, using `config/nav2_params.yaml`. That file is where the
+  parameter experiments happen.
 
 ## Install
 
@@ -84,3 +100,7 @@ Learning/experimentation project, not actively developed.
   the Nav2 params, and a placeholder file. Replaced a hardcoded home-directory map path
   with a relative one. Filled in `package.xml` (description, license, runtime
   dependencies, noreply maintainer email), and added this README and a `.gitignore`.
+
+## License
+
+Apache 2.0 — see [LICENSE.md](LICENSE.md). This matches the template and the `nav2_bringup` files it builds on.
