@@ -65,11 +65,6 @@ def generate_launch_description():
         arguments=["joint_broadcaster"],
     )
 
-    # lidar = Node(
-    #         package=package_name,
-    #         executable='lidar_node',
-    #     )
-    
     # Launch them all!
     return LaunchDescription([
         rsp,
@@ -79,5 +74,4 @@ def generate_launch_description():
         spawn_entity,
         diff_drive_spawner,
         joint_drive_spawner,
-        # lidar,
     ])

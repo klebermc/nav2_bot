@@ -3,18 +3,29 @@
 <package format="3">
   <name>nav2_bot</name>
   <version>0.0.0</version>
-  <description>TODO: Package description</description>
-  <maintainer email="example@queensu.ca">Kleber Cabral</maintainer>
-  <license>TODO: License declaration</license>
+  <description>Simulated differential-drive robot (Gazebo, ros2_control) for exploring Nav2 and slam_toolbox sensor and parameter settings.</description>
+  <maintainer email="41826731+klebermc@users.noreply.github.com">Kleber Cabral</maintainer>
+  <license>Apache-2.0</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <exec_depend>xacro</exec_depend>
+  <exec_depend>robot_state_publisher</exec_depend>
+  <exec_depend>gazebo_ros</exec_depend>
+  <exec_depend>gazebo_ros2_control</exec_depend>
+  <exec_depend>controller_manager</exec_depend>
+  <exec_depend>diff_drive_controller</exec_depend>
+  <exec_depend>joint_state_broadcaster</exec_depend>
+  <exec_depend>joy</exec_depend>
+  <exec_depend>teleop_twist_joy</exec_depend>
+  <exec_depend>twist_mux</exec_depend>
+  <exec_depend>slam_toolbox</exec_depend>
+  <exec_depend>nav2_bringup</exec_depend>
 
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>
 
   <export>
     <build_type>ament_cmake</build_type>
-    <exec_depend>rclpy</exec_depend>
-    <exec_depend>sensor_msgs</exec_depend>
   </export>
 </package>

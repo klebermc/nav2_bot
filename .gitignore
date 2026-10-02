@@ -1,0 +1,18 @@
+# colcon build output (if the repo is used as a workspace root)
+build/
+install/
+log/
+
+# Python
+__pycache__/
+*.pyc
+
+# slam_toolbox serialized maps / saved maps
+*.posegraph
+*.data
+*.pgm
+
+# OS/editor cruft
+.DS_Store
+*.swp
+.vscode/

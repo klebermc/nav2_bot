@@ -19,7 +19,8 @@ slam_toolbox:
     # if you'd like to immediately start continuing a map at a given pose
     # or at the dock, but they are mutually exclusive, if pose is given
     # will use pose
-    map_file_name: /home/kleber/dev_ws/my_map3
+    # Relative paths resolve against the directory ros2 launch is run from.
+    map_file_name: my_map
     map_start_pose: [0.0, 0.0, 0.0]
     map_start_at_dock: true
 
