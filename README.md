@@ -6,6 +6,10 @@ A ROS 2 package with a simulated differential-drive robot (Gazebo Classic +
 ros2_control), set up as a sandbox for experimenting with Nav2 and slam_toolbox
 sensor and parameter settings.
 
+![The robot driving to Nav2 goals in a Gazebo room while slam_toolbox builds the map](figures/slam_nav_demo.gif)
+
+*Simulation in `worlds/my_room.world` on ROS 2 Iron: Gazebo on the left; on the right, the slam_toolbox map (mapping mode), the robot's path in blue and the current Nav2 plan in green. Sped up.*
+
 **Credits:** the robot description and simulation launch layout follow the Articulated
 Robotics `my_bot` template and tutorial series by Josh Newans
 ([joshnewans/my_bot](https://github.com/joshnewans/my_bot)).
@@ -26,7 +30,8 @@ nav2_bot/
 │   ├── navigation_launch.py      # Nav2 navigation servers
 │   └── localization_launch.py    # map_server + AMCL
 ├── config/        # controllers, twist_mux, joystick, Nav2 + slam_toolbox params, rviz layouts
-└── worlds/        # empty.world, my_room.world
+├── worlds/        # empty.world, my_room.world
+└── figures/       # demo GIF used in this README
 ```
 
 ## What it does
@@ -48,6 +53,11 @@ nav2_bot/
 
 ## Install
 
+Developed for **ROS 2 Iron** (Ubuntu 22.04, Gazebo Classic 11). `config/nav2_params.yaml`
+lists behaviour-tree plugins that were added in Iron, so on Humble the Nav2 bringup fails
+at `bt_navigator` (`Could not load library: libnav2_are_error_codes_active_condition_bt_node.so`).
+The simulation and slam_toolbox do start on Humble.
+
 Clone into a colcon workspace and build:
 
 ```bash
@@ -64,7 +74,8 @@ source install/setup.bash
 Each step goes in its own terminal (with the workspace sourced):
 
 ```bash
-# Simulation (starts an empty Gazebo world; open worlds/my_room.world from the Gazebo GUI if wanted)
+# Simulation (starts an empty Gazebo world; open worlds/my_room.world from the Gazebo GUI if wanted,
+# or pass it at launch: world:=src/nav2_bot/worlds/my_room.world)
 ros2 launch nav2_bot launch_sim.launch.py
 
 # Mapping / localization with slam_toolbox
@@ -83,7 +94,7 @@ serialized map `my_map` from the directory you launch from. To build a new map, 
 
 ## Key dependencies
 
-ROS 2 (Gazebo Classic era) with `gazebo_ros`, `gazebo_ros2_control`, `ros2_control`
+ROS 2 Iron with Gazebo Classic 11, and `gazebo_ros`, `gazebo_ros2_control`, `ros2_control`
 (`diff_drive_controller`, `joint_state_broadcaster`), `xacro`,
 `robot_state_publisher`, `joy`, `teleop_twist_joy`, `twist_mux`, `slam_toolbox` and
 Nav2 (`nav2_bringup`).
@@ -91,6 +102,11 @@ Nav2 (`nav2_bringup`).
 ## Status
 
 Learning/experimentation project, not actively developed.
+
+**Checked 2026-10-05:** on ROS 2 Iron, the simulation, slam_toolbox (with `mode: mapping`)
+and Nav2 started with the files as they are, and the robot reached `NavigateToPose` goals
+in `my_room.world` (the GIF at the top is from that run). In mapping mode slam_toolbox logs
+an error about the missing `my_map` file and then starts a new map.
 
 ## Cleanup notes
 
